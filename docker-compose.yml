@@ -1,0 +1,26 @@
+services:
+  ragwebapi:
+    image: ${DOCKER_REGISTRY-}ragwebapi
+    container_name: ragwebapi
+    build:
+      context: .
+      dockerfile: RAGWebAPI/Dockerfile
+    ports:
+      - "5000:5000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  rag.database:
+    build:
+      context: ./postgres-vector
+    container_name: rag.database
+    environment:
+      POSTGRES_USER: rag
+      POSTGRES_PASSWORD: rag123
+      POSTGRES_DB: rag
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - ./.containers/rag-database:/var/lib/postgreql/data
+      - ./postgres-vector/init-vector.sql:/docker-entrypoint-initdb.d/init-vector.sql
+    ports:
+      - "5432:5432"
