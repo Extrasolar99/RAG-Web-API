@@ -17,10 +17,12 @@ At the moment, the API container connects to the local machine to access ollama,
 
 - Allows connections between the api, database and an embedding model.
 - Is capable of converting text to vector data.
+- Implements a generative AI model to converse with the using using an endpoint
+- Routes the prompt between the embedding and generative models to produce a response
 
 ### Planned
 
-- Integration of a generative LLM
+- Integration of a generative LLM -> DONE
 - Endpoints for storing various types of data (for ex. pdf's, maybe images etc...)
-- Move embedding (and generating) model(s) to container(s) as well
+- Move embedding (and generating) model(s) to container(s) as well -> PAIN IN THE ASS
 - Probably a lot more :P
