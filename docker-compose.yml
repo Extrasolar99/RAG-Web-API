@@ -7,8 +7,12 @@ services:
       dockerfile: RAGWebAPI/Dockerfile
     ports:
       - "5000:5000"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    environment:
+      - OLLAMA_API_URL=http://rag.ollama:11434
+      - OLLAMA_EMBED_MODEL=mxbai-embed-large
+      - OLLAMA_GENERATIVE_MODEL=llama3.1:8b
+    networks:
+     - rag_network
 
   rag.database:
     build:
@@ -24,29 +28,38 @@ services:
       - ./postgres-vector/init-vector.sql:/docker-entrypoint-initdb.d/init-vector.sql
     ports:
       - "5432:5432"
+    networks:
+     - rag_network
 
   
-#   ollama.embedding:
-#     build:
-#       context: ./ollama-embedding
-#     ports:
-#       - "11434:11434"
-#     devices:
-#       - /dev/kfd
-#       - /dev/dri
-#     volumes:
-#       - ollama1:/root/.ollama
+  rag.ollama:
+    build:
+      context: ./ollama
+    container_name: rag.ollama
+    privileged: true
+    ports:
+      - "11434:11434"
+    devices:
+      - /dev/kfd
+      - /dev/dri
+    volumes:
+      - ollama:/root/.ollama
+    networks:
+      - rag_network
 
-#   ollama.generative:
-#     image: ollama/ollama:rocm
-#     ports:
-#       - "11435:11434"
-#     devices:
-#       - /dev/kfd
-#       - /dev/dri
-#     volumes:
-#       - ollama2:/root/.ollama
+  # ollama.generative:
+  #   image: ollama/ollama:rocm
+  #   privileged: true
+  #   ports:
+  #     - "11435:11434"
+  #   devices:
+  #     - /dev/kfd
+  #     - /dev/dri
+  #   volumes:
+  #     - ollama2:/root/.ollama
 
-# volumes:
-#   ollama1:
-#   ollama2: 
+networks:
+  rag_network:
+
+volumes:
+  ollama:

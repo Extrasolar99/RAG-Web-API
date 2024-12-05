@@ -1,22 +1,29 @@
 using Microsoft.EntityFrameworkCore;
-
 using OllamaSharp;
-
+using RAGWebAPI.Background;
 using RAGWebAPI.Database;
 using RAGWebAPI.Services;
+using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//Debugger.Launch();
 builder.Services.AddDbContext<RAGDbContext>(optionsBuilder => 
-    optionsBuilder.UseNpgsql("Host=rag.database;Port=5432;Database=rag;Username=rag;Password=rag123", o => o.UseVector()));
+    optionsBuilder.UseNpgsql(connectionString, o => o.UseVector()));
 
-builder.Services.AddScoped<IEmbeddingService, EmbeddingService>();
+builder.Services.AddScoped<IEmbedService, EmbedService>();
+builder.Services.AddScoped<IGenerativeService, GenerativeService>();
+builder.Services.AddScoped<IRagPdfService, RagPdfService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddSingleton(new OllamaApiClient(Environment.GetEnvironmentVariable("OLLAMA_API_URL") ?? "http://rag.ollama:11434"));
+builder.Services.AddHostedService<ModelPullingService>();
 
 var app = builder.Build();
 

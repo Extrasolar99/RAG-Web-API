@@ -15,8 +15,8 @@
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
-    <None Include="ollama-embedding\Dockerfile" />
-    <None Include="ollama-generative\Dockerfile" />
+    <None Include="ollama\Dockerfile" />
+    <None Include="ollama\entrypoint.sh" />
     <None Include="postgres-vector\Dockerfile" />
     <None Include="postgres-vector\init-vector.sql" />
   </ItemGroup>
