@@ -1,15 +1,14 @@
-﻿using OllamaSharp;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Pgvector.EntityFrameworkCore;
 using Pgvector;
+using OllamaSharp;
 using UglyToad.PdfPig;
 using UglyToad.PdfPig.DocumentLayoutAnalysis.TextExtractor;
 using RAGWebAPI.Database;
 using RAGWebAPI.Models;
 using RAGWebAPI.Models.Entities;
 using RAGWebAPI.Models.Responses;
-using OllamaSharp.Models;
-using Pgvector.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace RAGWebAPI.Services;
 
@@ -115,6 +114,7 @@ public class RagPdfService(
         }).ToList();
 
         string formattedResults = JsonConvert.SerializeObject(pageResponses);
+        Console.WriteLine("Sending prompt and data to the GenerativeService...");
         var chatResponse = await _generativeService.GenerateResponseWithData(prompt, formattedResults);
 
         return ServiceResult<string>.Success(chatResponse);

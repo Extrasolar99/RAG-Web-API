@@ -1,5 +1,4 @@
 ﻿using Pgvector;
-using RAGWebAPI.Models.Entities;
 
 namespace RAGWebAPI.Models.Responses;
 

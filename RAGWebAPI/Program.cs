@@ -3,7 +3,6 @@ using OllamaSharp;
 using RAGWebAPI.Background;
 using RAGWebAPI.Database;
 using RAGWebAPI.Services;
-using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,6 +1,5 @@
 ﻿using OllamaSharp;
 using Pgvector;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace RAGWebAPI.Services;
 
