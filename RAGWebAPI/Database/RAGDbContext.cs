@@ -1,7 +1,5 @@
-﻿// Data/ApplicationDbContext.cs
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Pgvector;
+﻿using Microsoft.EntityFrameworkCore;
+using RAGWebAPI.Models.Entities;
 
 namespace RAGWebAPI.Database;
 
@@ -15,18 +13,6 @@ public class RAGDbContext(DbContextOptions<RAGDbContext> options) : DbContext(op
         modelBuilder.HasPostgresExtension("vector");
         modelBuilder.Entity<Document>()
             .Property(d => d.Embedding)
-            .HasColumnType("vector(300)");
+            .HasColumnType("vector(1024)");
     }
-
-    private void SeedData(ModelBuilder modelBuilder)
-    {
-
-    }
-}
-
-public class Document
-{
-    public int Id { get; set; }
-    public string Content { get; set; }
-    public Vector Embedding { get; set; }
 }

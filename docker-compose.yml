@@ -24,3 +24,29 @@ services:
       - ./postgres-vector/init-vector.sql:/docker-entrypoint-initdb.d/init-vector.sql
     ports:
       - "5432:5432"
+
+  
+#   ollama.embedding:
+#     build:
+#       context: ./ollama-embedding
+#     ports:
+#       - "11434:11434"
+#     devices:
+#       - /dev/kfd
+#       - /dev/dri
+#     volumes:
+#       - ollama1:/root/.ollama
+
+#   ollama.generative:
+#     image: ollama/ollama:rocm
+#     ports:
+#       - "11435:11434"
+#     devices:
+#       - /dev/kfd
+#       - /dev/dri
+#     volumes:
+#       - ollama2:/root/.ollama
+
+# volumes:
+#   ollama1:
+#   ollama2: 

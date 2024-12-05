@@ -1,13 +1,17 @@
 using Microsoft.EntityFrameworkCore;
+
 using OllamaSharp;
 
 using RAGWebAPI.Database;
+using RAGWebAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<RAGDbContext>(optionsBuilder => 
     optionsBuilder.UseNpgsql("Host=rag.database;Port=5432;Database=rag;Username=rag;Password=rag123", o => o.UseVector()));
+
+builder.Services.AddScoped<IEmbeddingService, EmbeddingService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
