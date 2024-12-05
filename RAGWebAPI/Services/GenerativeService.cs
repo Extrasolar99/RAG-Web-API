@@ -15,7 +15,14 @@ public class GenerativeService(OllamaApiClient ollamaApiClient) : IGenerativeSer
         await foreach (var stream in _ollamaApiClient.GenerateAsync(new GenerateRequest()
         {
             Model = Environment.GetEnvironmentVariable("OLLAMA_GENERATIVE_MODEL")!,
-            Prompt = $"Using this data: {data}. Respond to this prompt: {prompt}"
+            Prompt = @$"You are an AI assistant that helps people find information in a variety of data sources.
+                    Using this data: {data}. 
+                    Respond to this prompt: {prompt}.
+                    Instructions: 
+                    - When referring to locations of the data, only refer to page numbers.
+                    - Don't use any json structures in your response.
+                    - Provide clear and concise responses.
+                    - Ensure the response is relevant to the prompt"
         }))
         {
             if (stream != null) chatResponse += stream.Response;
